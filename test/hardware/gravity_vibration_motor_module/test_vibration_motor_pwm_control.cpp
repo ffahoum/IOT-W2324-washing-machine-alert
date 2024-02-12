@@ -1,5 +1,7 @@
 // Vibration Motor Module Testing for ESP32
 
+#include <Arduino.h>
+
 // Define the pin connected to the vibration motor
 const int motorPin = 23; // Connect the motor to pin D23 on the ESP32
 
