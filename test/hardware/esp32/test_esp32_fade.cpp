@@ -13,6 +13,8 @@
   https://www.arduino.cc/en/Tutorial/BuiltInExamples/Fade
 */
 
+#include <Arduino.h>
+
 int led = 2;         // the PWM pin the LED is attached to
 int brightness = 0;  // how bright the LED is
 int fadeAmount = 5;  // how many points to fade the LED by

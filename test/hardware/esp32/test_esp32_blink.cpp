@@ -22,6 +22,8 @@
   https://www.arduino.cc/en/Tutorial/BuiltInExamples/Blink
 */
 
+#include <Arduino.h>
+
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 }

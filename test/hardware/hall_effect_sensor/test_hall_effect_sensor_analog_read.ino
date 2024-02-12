@@ -1,5 +1,7 @@
 // Hall Effect Magnetic Sensor Testing
 
+#include <Arduino.h>
+
 // Define the pin connected to the Hall Effect sensor
 const int sensorPin = 13; // Connect the sensor to pin D13 on the ESP32
 
