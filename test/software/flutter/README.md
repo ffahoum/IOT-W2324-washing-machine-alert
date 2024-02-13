@@ -1,6 +1,7 @@
 # flutter test
 
 A new Flutter project.
+main.dart is in the lib directory
 
 ## Getting Started
 
