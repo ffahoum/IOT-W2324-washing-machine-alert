@@ -165,6 +165,8 @@ Based on observations from the empicial testing, the threshold value is adjusted
 | 15        | On                | (-1.31, 0.45, 9.8)               | 9.897    |  11.56   |
 | 16        | Off               | (-0.24, -0.15, 9.76)             | 9.764    |  10.15   |
 
+
+
 ### Insights
 - **Consistency of Readings**: Some iterations show relatively consistent vibration intensity values over consecutive "Off" states.
 - **Potential Outliers**: Iteration 3, 5 and 13 for Option 1 and Option 2 has notably higher vibration intensity values compared to other iterations. This could indicate a potential outlier in the data.
@@ -273,7 +275,17 @@ void loop() {
 
 
 ### Conclusion
-The vibration threshold finding procedure successfully overall determines an optimal threshold value for detecting the end of the washing machine cycle. By following this systematic approach and fine-tuning the threshold based on empirical testing and iterative adjustments, the system can almost reliably detect the end of the washing machine cycle with high accuracy and minimal false detections.
+To enhance the accuracy of vibration intensity detection, we propose a refinement to the process. Rather than solely relying on a single measurement, we suggest performing multiple consecutive measurements using the MPU6050 sensor. By averaging these measurements, we can mitigate the impact of outliers and reduce the likelihood of false-positive results.
+
+The chosen threshold for vibration intensity is set at 9.8 units, serving as a reference point for determining whether the measured intensity exceeds the acceptable level. However, instead of making decisions based solely on individual readings, we recommend establishing a protocol where multiple consecutive readings are taken and averaged.
+
+This approach offers several benefits:
+
+- Outlier Mitigation: Averaging multiple readings helps to smooth out variations caused by outliers or transient disturbances.
+- Improved Reliability: By considering a series of measurements, we gain more confidence in the accuracy of the reported vibration intensity.
+- Reduced False Positives: Averaging reduces the likelihood of false-positive results, ensuring that genuine instances of elevated vibration intensity are correctly identified.
+
+Refining the procedure in this manner enhances the robustness of the vibration intensity detection system, making it more reliable for practical applications.
 
 
 ## Considerations
