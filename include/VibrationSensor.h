@@ -19,13 +19,12 @@
 class VibrationSensor {
     private:
     Adafruit_MPU6050 mpu;       /**< Instance of the MPU6050 class */
-    float threshold;         /**< Vibration detection threshold */
     bool initialized = false;       /**< Flag indicating if the sensor is initialized */
-    sensors_vec_t gyro;     /**< Gyroscope data */
-    float temprature;       /**< Temperature data */
-
     public:
-    sensors_vec_t acceleration;     /**< Acceleration data */
+    float xAcceleration;
+    float yAcceleration;
+    float zAcceleration;
+
 
 
 
@@ -33,14 +32,13 @@ class VibrationSensor {
      * @brief Constructor for the VibrationSensor class.
      * Initializes the MPU6050 and sets its configuration prameters.
     */
-    VibrationSensor(float threshold);
+    VibrationSensor();
 
     /**
      * @brief Updates the sensor readings.
      * Reads the accelerometer, gyroscope, and temperature data from the MPU6050 sensor.
-     * @return True if the sensor is initialized and data is successfully updated, false otherwise.
      */
-    bool update();
+    void update();
 
     /**
      * @brief Checks if vibration is detected based on the sensor readings.
@@ -57,7 +55,9 @@ class VibrationSensor {
      * 
      * @return The calculated vibration intensity as a floating-point value.
      */
-    float calculateVibrationIntensty();
+    float calculateVibrationIntensty(sensors_event_t& a);
+
+    class SensorNotInitializedException : public std::exception {};
 };
 
 #endif 
