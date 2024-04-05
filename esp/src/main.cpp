@@ -1,77 +1,129 @@
 #include <Arduino.h>
 #include "VibrationSensor.h"
-#include "WiFiManager.h"
+#include "WiFiController.h"
 #include "FirebaseManager.h"
 #include "MagnetSensor.h"
-
-#define DATABASE_URL "https://wash-watch-default-rtdb.firebaseio.com/"
-#define API_KEY "AIzaSyDBaDc85VryAXFR574PeZaoPaQe-OAUnMQ"
-#define WIFI_SSID "ICST"
-#define WIFI_PASSWORD "arduino123"
-//#define WIFI_SSID "HOTBOX 4-44C8"
-//#define WIFI_PASSWORD "DZJLTFKJUJ65"
-#define MAGNET_SENSOR_PIN 32
+#include "time.h"
+#include "Heartbeat.h"
 
 using std::string;
+
+#define MAGNET_SENSOR_PIN 32
+
 VibrationSensor* mpu;
-WiFiManager* wifi;
+WiFiController* wifi;
 FirebaseManager* firebase;
 MagnetSensor* magnetSensor;
+Heartbeat* heartbeatManager;
 bool newMachineStatus;
-bool currentMachineStatus;
-bool currentDoorStatus;
 bool newDoorStatus;
+bool newLowValidityStatus;
+bool newMediumValidityStatus;
+bool newHighValidityStatus;
 
 void setup(void) {
     Serial.begin(9600);
+    pinMode(LED_BUILTIN, OUTPUT);
 
-    wifi = new WiFiManager(WIFI_SSID, WIFI_PASSWORD);
-    wifi->establishConnection();
-
+    wifi = new WiFiController();
+    
     Serial.println();
 
-    firebase = new FirebaseManager(API_KEY, DATABASE_URL);
-    firebase->establishConnection();
+    heartbeatManager = new Heartbeat();
 
+    firebase = new FirebaseManager(heartbeatManager);
+    firebase->establishConnection();
+    
     mpu = new VibrationSensor();
-    newMachineStatus = currentMachineStatus = mpu->isVibrating();
+    mpu->updateVibrationPeaksArray();
+    newMachineStatus = mpu->isVibrating();
+    newLowValidityStatus  = mpu->isLowThresholdValid();
+    newMediumValidityStatus  = mpu->isMediumThresholdValid();
+    newHighValidityStatus =  mpu->isHighThresholdValid();
 
     magnetSensor = new MagnetSensor(MAGNET_SENSOR_PIN);
     pinMode(MAGNET_SENSOR_PIN, INPUT);
-    newDoorStatus = currentDoorStatus = magnetSensor->isOpen();
+    newDoorStatus = magnetSensor->isOpen();
 
-    Serial.print("Washing machine is ");
-    Serial.println(currentMachineStatus ? "On" : "Off");
-    Serial.print("Door is ");
-    Serial.println(currentDoorStatus ? "Open" : "Close");
-    firebase->initDatabase(currentDoorStatus, currentMachineStatus);
+    Serial.print("Washing machine status is ");
+    Serial.println(newMachineStatus ? "On" : "Off");
+    Serial.print("Door status is ");
+    Serial.println(newDoorStatus ? "Open" : "Close");
+    Serial.print("Low threshold intensity is ");
+    Serial.println(newLowValidityStatus? "Valid" : "Invalid");
+    Serial.print("Medium threshold intensity is ");
+    Serial.println(newMediumValidityStatus? "Valid" : "Invalid");
+    Serial.print("High threshold intensity is ");
+    Serial.println(newHighValidityStatus? "Valid" : "Invalid");
+
+    firebase->initDatabase(newDoorStatus, newMachineStatus, newLowValidityStatus, newMediumValidityStatus, newHighValidityStatus);
 }
 
 void loop() {
+
+    wifi->Process();
+    
+    Serial.println("Updating timestamp in database...");
+    firebase->updateTimeStamp();
+
+    Serial.println();
+    Serial.println("-----------------------------------");
+    Serial.println("--- New Measeurements Iteration ---");
+    Serial.println("-----------------------------------");
+
+    Serial.println();    
     Serial.println("Measuring vibrations...");
+    mpu->updateVibrationPeaksArray();
     newMachineStatus = mpu->isVibrating();
-    if (newMachineStatus != currentMachineStatus) {
-        Serial.println("Hang tight while we update the database accordingly...");
-        Serial.print("Washing machine was: ");
-        Serial.println(currentMachineStatus ? "ON" : "OFF");
-        Serial.print("Now it is: ");
-        Serial.println(newMachineStatus? "ON" : "OFF");
-        firebase->updateStatus(newMachineStatus);
-    } else {
-        Serial.println("Washing machine status has not changed.");
-    }
-    currentMachineStatus = newMachineStatus; 
+    Serial.println("Hang tight while we update the database accordingly...");
+    Serial.print("Washing machine is: ");
+    Serial.println(newMachineStatus? "ON" : "OFF");
+    firebase->updateMachineStatus(newMachineStatus);
+
+    Serial.println();
+    Serial.println("-----------------------------------");
+    Serial.println();
+
+    Serial.println("Validating vibration intensity for low threshold...");
+    newLowValidityStatus = mpu->isLowThresholdValid();
+    Serial.println("Hang tight while we update the database accordingly...");
+    Serial.print("Low threshold intensity is ");
+    Serial.println(newLowValidityStatus? "valid" : "unvalid");
+    firebase->updateThresholdStatus("low", newLowValidityStatus);
+
+
+    Serial.println();
+    Serial.println("-----------------------------------");
+    Serial.println();
+
+    Serial.println("Validating vibration intensity for medium threshold...");
+    newMediumValidityStatus = mpu->isMediumThresholdValid();
+    Serial.println("Hang tight while we update the database accordingly...");
+    Serial.print("Medium threshold intensity is ");
+    Serial.println(newMediumValidityStatus? "valid" : "unvalid");
+    firebase->updateThresholdStatus("medium", newMediumValidityStatus);
+
+    Serial.println();
+    Serial.println("-----------------------------------");
+    Serial.println();
+
+    Serial.println("Validating vibration intensity for high threshold...");
+    newHighValidityStatus = mpu->isHighThresholdValid();
+    Serial.println("Hang tight while we update the database accordingly...");
+    Serial.print("High threshold intensity is ");
+    Serial.println(newHighValidityStatus? "valid" : "unvalid");
+    firebase->updateThresholdStatus("high", newHighValidityStatus);
+
+
+    Serial.println();
+    Serial.println("-----------------------------------");
+    Serial.println();   
+
     Serial.println("Reading magnet field intensity...");
     newDoorStatus = magnetSensor->isOpen();
-    if (newDoorStatus != currentDoorStatus) {
-        Serial.println("Hang tight while we update the database accordingly...");
-        Serial.print("Washing machine door was: ");
-        Serial.println(currentDoorStatus ? "Open" : "Close");
-        Serial.print("Now it is: ");
-        Serial.println(newDoorStatus ? "Open" : "Close");
-        firebase->updateDoorStatus(newDoorStatus);
-    } else {
-        Serial.println("Washing machine door status has not changed.");
-    }
-    currentDoorStatus = newDoorStatus; 
+    Serial.println("Hang tight while we update the database accordingly...");
+    Serial.print("Washing machine door is: ");
+    Serial.println(newDoorStatus ? "Open" : "Close");
+    firebase->updateDoorStatus(newDoorStatus);
+
 }
