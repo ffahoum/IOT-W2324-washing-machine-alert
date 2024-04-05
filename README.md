@@ -4,11 +4,11 @@ This document provides an overview of the main functionality of our project, det
 
 ## Contents
 
-2. [WiFi Controller Documentation](./docs/WiFiControllerDocumentation.md)
-3. [Firebase Manager Documentation](./docs/FirebaseManagerDocumentation.md)
-4. [Vibration Sensor Documentation](./docs/VibrationSensorDocumentation.md)
-5. [Magnet Sensor Documentation](./docs/MagnetSensorDocumentation.md)
-6. [Heartbeat Documentation](./docs/HeartBeatDocumentation.md)
+1. [WiFi Controller Documentation](./docs/WiFiControllerDocumentation.md)
+2. [Firebase Manager Documentation](./docs/FirebaseManagerDocumentation.md)
+3. [Vibration Sensor Documentation](./docs/VibrationSensorDocumentation.md)
+4. [Magnet Sensor Documentation](./docs/MagnetSensorDocumentation.md)
+5. [Heartbeat Documentation](./docs/HeartBeatDocumentation.md)
 
 ### Description
 The main functionality of the application involves initializing various sensors, establishing a connection to the WiFi network, and updating sensor data to the Firebase database periodically. The application monitors the vibration intensity of a washing machine using an accelerometer sensor (VibrationSensor), detects the status of the washing machine door using a magnetic sensor (MagnetSensor), and updates the sensor data to the Firebase database using the FirebaseManager.
