@@ -33,16 +33,17 @@ class InformationDialog extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.category, color: Colors.blueGrey[400]),
+            leading: Icon(Icons.category, color: Colors.blueGrey[400], size: 40),
             title: Text(
               "Catalog Page",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[900],
+              fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              "Displays washing machines with metadata. Click a machine to view details like status, model, and waiting list.",
+              "Show supported washing machines. Click on the tile to show more info.",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 14,
                 color: Colors.blueGrey[800],
@@ -50,16 +51,17 @@ class InformationDialog extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.schedule, color: Colors.blueGrey[400]),
+            leading: Icon(Icons.schedule, color: Colors.blueGrey[400], size: 40),
             title: Text(
-              "Schedule Button",
+              "Schedule",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[900],
+                fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              "Allows immediate machine cycle scheduling from the catalog page.",
+              "Reserve and start a washing cycle.",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 14,
                 color: Colors.blueGrey[800],
@@ -67,16 +69,17 @@ class InformationDialog extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.subscriptions, color: Colors.blueGrey[400]),
+            leading: Icon(Icons.subscriptions, color: Colors.blueGrey[400], size: 40),
             title: Text(
-              "Subscribe Button",
+              "Subscribe",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[900],
+                fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              "Joins waiting list for machines if immediate scheduling is not possible.",
+              "Join the waiting list if the washing machine is reserved or busy.",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 14,
                 color: Colors.blueGrey[800],
@@ -84,16 +87,17 @@ class InformationDialog extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.list_alt, color: Colors.blueGrey[400]),
+            leading: Icon(Icons.list_alt, color: Colors.blueGrey[400], size: 40),
             title: Text(
-              "Subscribed Machines Page",
+              "My Subscribed Washing Machines",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[900],
+                fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              "Shows machines user is waiting for.",
+              "Display the machines that you are subscribed to.",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[800],
@@ -101,16 +105,17 @@ class InformationDialog extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.assignment, color: Colors.blueGrey[400]),
+            leading: Icon(Icons.assignment, color: Colors.blueGrey[400], size: 40),
             title: Text(
-              "Jobs Page",
+              "Active Washing Machines",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 14,
                 color: Colors.blueGrey[900],
+                fontWeight: FontWeight.bold,
               ),
             ),
             subtitle: Text(
-              "Lists scheduled machine cycles with real-time updates.",
+              "A list of the on-going reserved washing machines.",
               style: GoogleFonts.openSansCondensed(
                 fontSize: 13,
                 color: Colors.blueGrey[800],
