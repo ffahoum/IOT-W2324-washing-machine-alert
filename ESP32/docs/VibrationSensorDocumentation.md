@@ -120,24 +120,6 @@ The `VibrationSensor` class encapsulates functionality related to initializing t
 - **Value:** 30
 - **Usage:** Used to determine the number of readings processed together as a chunk for peak detection and analysis.
 
-### LOW_THRESHOLD
-- **Description:** Constant representing the low threshold for vibration intensity.
-- **Type:** Float
-- **Value:** 10.0
-- **Usage:** Defines the minimum acceptable vibration intensity level considered as low vibration.
-
-### MEDIUM_THRESHOLD
-- **Description:** Constant representing the medium threshold for vibration intensity.
-- **Type:** Float
-- **Value:** 20.0
-- **Usage:** Defines the threshold for medium vibration intensity, indicating a moderate level of vibration.
-
-### HIGH_THRESHOLD
-- **Description:** Constant representing the high threshold for vibration intensity.
-- **Type:** Float
-- **Value:** 30.0
-- **Usage:** Defines the threshold for high vibration intensity, indicating a significant level of vibration.
-
 ### ZERO_VIBRATIONS_PEAK
 - **Description:** Defines the peak value indicating zero vibrations.
 - **Type:** Integer
@@ -177,7 +159,7 @@ The `VibrationSensor` class encapsulates functionality related to initializing t
 ### LOW_VALID_INTENSITY
 - **Description:** Defines the low valid intensity threshold.
 - **Type:** Integer
-- **Value:** 160
+- **Value:** 150
 - **Usage:** Represents the threshold below which vibration intensity is considered low valid.
 - **Insight:** This threshold were established through iterative testing and adjustment of the algorithm to ensure that valid vibration intensities are accurately categorized within each intensity level. By analyzing sensor data and observing the distribution of vibration intensities, appropriate threshold values were chosen to validate the accuracy of vibration detection.
 
