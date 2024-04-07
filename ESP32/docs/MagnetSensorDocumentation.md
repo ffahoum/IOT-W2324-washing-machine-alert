@@ -28,11 +28,11 @@ The `MagnetSensor` class provides functionality to read the state of a magnetic 
 
 ### Define Definitions
 
-#### READINGS_NUM
-- **Description:** Number of readings for sensor calibration.
+### READINGS_NUM
+- **Description:** Number of readings for magnet field detection.
 - **Type:** Integer
 - **Value:** 100
-- **Usage:** Specifies the number of readings to be taken for sensor calibration, ensuring accuracy in determining the sensor state.
+- **Usage:** Specifies the number of readings to be taken for magnet field detection.
 
 #### DOOR_CLOSED_THRESHOLD
 - **Description:** Threshold value for determining if the door is closed.

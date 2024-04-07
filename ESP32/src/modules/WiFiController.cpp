@@ -1,6 +1,5 @@
 #include "WiFiController.h"
 
-#define WIFI_TIMEOUT_SEC 300
 #define AP_SSID "EcoClean Pro"
 #define AP_PASSWORD "qwerasdfzxcv1811"
 

@@ -32,89 +32,81 @@ void FirebaseManager::establishConnection() {
 bool FirebaseManager::updateMachineStatus(bool newStatus) {
     int retryCount = 0;
     bool writeFailed = false;
-    if (Firebase.ready()) {
-        Serial.println("Trying to write to database to update machine status...");
-        while (!Firebase.RTDB.setBool(&fbdo, statusPath.c_str(), newStatus)) {
-            if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
-                Serial.println("Max retry attempt reached. Aborting.");
-                writeFailed = true;
-                break;
-            }
-            retryCount++;
-            digitalWrite(LED_BUILTIN, HIGH);  
-            delay(100);
-            digitalWrite(LED_BUILTIN, LOW);  
-            delay(100);
+    Serial.println("Trying to write to database to update machine status...");
+    while (!Firebase.RTDB.setBool(&fbdo, statusPath.c_str(), newStatus)) {
+        if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
+            Serial.println("Max retry attempt reached. Aborting.");
+            writeFailed = true;
+            break;
         }
-        if (writeFailed) {
-            {
-                Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
-                wm->startConfigPortal();
-            }
-        } else {
-            return true;
-        }
+        retryCount++;
+        digitalWrite(LED_BUILTIN, HIGH);  
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);  
+        delay(100);
     }
-    return false;
+    if (writeFailed) {
+        {
+            Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
+            wm->startConfigPortal();
+        }
+    } else {
+        return true;
+    }
 }
 
 bool FirebaseManager::updateDoorStatus(bool newStatus) {
     int retryCount = 0;
     bool writeFailed = false;    
-    if (Firebase.ready()) {
-        Serial.println("Trying to write to database to update door status...");
-        while (!Firebase.RTDB.setBool(&fbdo, doorStatusPath.c_str(), newStatus)) {
-            if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
-                Serial.println("Max retry attempt reached. Aborting.");
-                writeFailed = true;
-                break;
-            }
-            retryCount++;
-            digitalWrite(LED_BUILTIN, HIGH);  
-            delay(100);
-            digitalWrite(LED_BUILTIN, LOW);  
-            delay(100);   
+    Serial.println("Trying to write to database to update door status...");
+    while (!Firebase.RTDB.setBool(&fbdo, doorStatusPath.c_str(), newStatus)) {
+        if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
+            Serial.println("Max retry attempt reached. Aborting.");
+            writeFailed = true;
+            break;
         }
-        if (writeFailed) {
-            {
-                Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
-                wm->startConfigPortal();
-            }
-        } else {
-            return true;
-        }
+        Serial.print("in the loop");
+        retryCount++;
+        digitalWrite(LED_BUILTIN, HIGH);  
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);  
+        delay(100);   
     }
-    return false;
+    if (writeFailed) {
+        {
+            Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
+            wm->startConfigPortal();
+        }
+    } else {
+        return true;
+    }
 }
 
 bool FirebaseManager::updateThresholdStatus(string threshold, bool newStatus) {
     int retryCount = 0;
     bool writeFailed = false;    
     string thresholdValidityPath = thresholdsPath + threshold;
-    if (Firebase.ready()) {
-        Serial.println("Trying to write to database to update threshold validity...");
-        while(!Firebase.RTDB.setBool(&fbdo, thresholdValidityPath.c_str(), newStatus)) {
-            if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
-                Serial.println("Max retry attempt reached. Aborting.");
-                writeFailed = true;
-                break;
-            }
-            retryCount++;
-            digitalWrite(LED_BUILTIN, HIGH);  
-            delay(100);
-            digitalWrite(LED_BUILTIN, LOW);  
-            delay(100);       
+    Serial.println("Trying to write to database to update threshold validity...");
+    while(!Firebase.RTDB.setBool(&fbdo, thresholdValidityPath.c_str(), newStatus)) {
+        if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
+            Serial.println("Max retry attempt reached. Aborting.");
+            writeFailed = true;
+            break;
         }
-        if (writeFailed) {
-            {
-                Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
-                wm->startConfigPortal();
-            }
-        } else {
-            return true;
-        }
+        retryCount++;
+        digitalWrite(LED_BUILTIN, HIGH);  
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);  
+        delay(100);       
     }
-    return false;
+    if (writeFailed) {
+        {
+            Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
+            wm->startConfigPortal();
+        }
+    } else {
+        return true;
+    }
 }
 
 bool FirebaseManager::initDatabase(bool& doorOpen, bool& machineStatus, bool& lowValidityStatus, bool& mediumValidityStatus, bool& highValidityStatus) {    
@@ -136,27 +128,24 @@ bool FirebaseManager::updateTimeStamp() {
         return false;
     }
     Serial.println("Trying to write to database to update timestamp...");
-    if (Firebase.ready()) {
-        while(!Firebase.RTDB.setInt(&fbdo, timestampPath.c_str(), timestamp)) {
-            if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
-                Serial.println("Max retry attempt reached. Aborting.");
-                writeFailed = true;
-                break;
-            }
-            retryCount++;
-            digitalWrite(LED_BUILTIN, HIGH);  
-            delay(100);
-            digitalWrite(LED_BUILTIN, LOW);  
-            delay(100);
+    while(!Firebase.RTDB.setInt(&fbdo, timestampPath.c_str(), timestamp)) {
+        if (retryCount > RETRY_COUNT && WiFi.status() != WL_CONNECTED) {
+            Serial.println("Max retry attempt reached. Aborting.");
+            writeFailed = true;
+            break;
         }
-        if (writeFailed) {
-            {
-                Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
-                wm->startConfigPortal();
-            }
-        } else {
-            return true;
-        }
+        retryCount++;
+        digitalWrite(LED_BUILTIN, HIGH);  
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);  
+        delay(100);
     }
-    return false;    
+    if (writeFailed) {
+        {
+            Serial.println("Failed to reconnect to WiFi. Starting configuration mode...");
+            wm->startConfigPortal();
+        }
+    } else {
+        return true;
+    }
 }
