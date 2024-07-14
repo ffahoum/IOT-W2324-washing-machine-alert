@@ -139,3 +139,4 @@ With its robust functionality and user-centric design, Washing Machine Alert sim
 
 
 This project is part of ICST - The Interdisciplinary Center for Smart Technologies, Taub Faculty of Computer Science, Technion https://icst.cs.technion.ac.il/
+[poster.pdf](https://github.com/user-attachments/files/16216500/poster.pdf)
